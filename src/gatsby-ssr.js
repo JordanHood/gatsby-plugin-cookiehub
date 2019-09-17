@@ -1,8 +1,8 @@
 import React from 'react';
 import { oneLine, stripIndent } from 'common-tags';
 
-const COOKIHUB_SRC = `https://cookiehub.net/cc/`;
-const GTAG_SRC = `https://www.googletagmanager.com/gtag/js`;
+var COOKIHUB_SRC = `https://cookiehub.net/cc/`;
+var GTAG_SRC = `https://www.googletagmanager.com/gtag/js`;
 
 exports.onRenderBody = (
   { setHeadComponents, setPostBodyComponents },
@@ -16,16 +16,16 @@ exports.onRenderBody = (
     return null;
   }
 
-  const anonymize = pluginOptions.anonymize || false;
+  var anonymize = pluginOptions.anonymize || false;
 
-  const cookieHubScript = (
+  var cookieHubScript = (
     <script
       key="gatsby-plugin-cookihub-cookihub-js"
       src={`${COOKIHUB_SRC}${pluginOptions.cookihubId}.js`}
     />
   );
 
-  const gtagScript = (
+  var gtagScript = (
     <script
       async
       key="gatsby-plugin-cookihub-gtag-js"
@@ -33,7 +33,7 @@ exports.onRenderBody = (
     />
   );
 
-  const setupScriptStr = stripIndent`
+  var setupScriptStr = stripIndent`
     window.GATSBY_PLUGIN_COOKIEHUB_DISABLED_ANALYTICS = true;
   
     window.GATSBY_PLUGIN_COOKIEHUB_GA_TRACKING_ID = (
@@ -41,7 +41,7 @@ exports.onRenderBody = (
     );
     window.GATSBY_PLUGIN_COOKIEHUB_ANONYMIZE = ${anonymize};
 
-    let options = undefined;
+    var options = undefined;
 
     if (${anonymize}) {
       options = {
@@ -54,26 +54,26 @@ exports.onRenderBody = (
     gtag('js', new Date());    
   `;
 
-  const setupScript = (
+  var setupScript = (
     <script
       key="gatsby-plugin-cookihub-setup"
       dangerouslySetInnerHTML={{ __html: setupScriptStr }}
     />
   );
 
-  const consentScriptStr = stripIndent`
+  var consentScriptStr = stripIndent`
     window.addEventListener("load", function() {
       window.cookieconsent.initialise({
         onInitialise: function(status) {
           if (this.hasConsented('analytics')) {
             window.GATSBY_PLUGIN_COOKIEHUB_DISABLED_ANALYTICS = false;
-            gtag('config', '${pluginOptions.trackingId}');
+            gtag('config', '${pluginOptions.trackingId}', options);
           }
         },
         onAllow: function(category) {
           if (category == 'analytics') {
             window.GATSBY_PLUGIN_COOKIEHUB_DISABLED_ANALYTICS = false;
-            gtag('config', '${pluginOptions.trackingId}');
+            gtag('config', '${pluginOptions.trackingId}', options);
           }
         },
         onRevoke: function(category) {
@@ -85,14 +85,14 @@ exports.onRenderBody = (
     });  
   `;
 
-  const consentScript = (
+  var consentScript = (
     <script
       key="gatsby-plugin-cookihub-consent"
       dangerouslySetInnerHTML={{ __html: consentScriptStr }}
     />
   );
 
-  const setComponents = pluginOptions.head
+  var setComponents = pluginOptions.head
     ? setHeadComponents
     : setPostBodyComponents;
 

@@ -1,7 +1,7 @@
 exports.onRouteUpdate = ({ location }) => {
-  const consent = !window.GATSBY_PLUGIN_COOKIEHUB_DISABLED_ANALYTICS;
-  const trackingId = window.GATSBY_PLUGIN_COOKIEHUB_GA_TRACKING_ID;
-  const anonymize = window.GATSBY_PLUGIN_COOKIEHUB_ANONYMIZE || false;
+  var consent = !window.GATSBY_PLUGIN_COOKIEHUB_DISABLED_ANALYTICS;
+  var trackingId = window.GATSBY_PLUGIN_COOKIEHUB_GA_TRACKING_ID;
+  var anonymize = window.GATSBY_PLUGIN_COOKIEHUB_ANONYMIZE || false;
 
   if (
     !trackingId ||
@@ -11,13 +11,13 @@ exports.onRouteUpdate = ({ location }) => {
     return;
   }
 
-  let locationStr = '';
+  var locationStr = '';
 
   if (location) {
     locationStr = `${location.pathname}${location.search}${location.hash}`;
   }
 
-  let anonymizeObj = {};
+  var anonymizeObj = {};
   if (anonymize) {
     anonymizeObj = { anonymize_ip: true };
   }
